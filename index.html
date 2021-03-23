@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    /* p{
+      height: 50%;
+      width: 50%;
+    } */
+    </style>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <script src="script.js"></script>
+     <div id='container'>
+    <canvas id='game' width='500' height='500'></canvas>
+  </div>
+  <!-- <div>
+  <p>Centered!
+</div> -->
+  <!-- <center class  = "center">Space Adventure</center> -->
+  </body>
+  <script>
+  var canvas = document.getElementById('game');
+      var context = canvas.getContext('2d');
+      var x = canvas.width / 2;
+      var y = canvas.height / 2;
+
+      context.font = '30pt Calibri';
+      context.textAlign = 'center';
+      context.fillStyle = 'blue';
+      context.fillText('Space Adventure', x, y);
+      context.font = '15pt Calibri';
+      context.fillText('Press space to start', x, y+65);
+      context.fillText('You are traveling through space, you need to avoid the', x, y+30);
+      context.fillText('astoriods while traveling through space', x, y+47);
+      context.fillText('Up Direction: Up arrow key', x-140, y+150);
+      context.fillText('Down Direction: Down arrow key', x-115, y+165);
+      context.fillText('Collects stars to get bonus points', x-115, y+200);
+      context.fillText('Collects hammers to get extra life', x-115, y+220);
+  </script>
+</html>
