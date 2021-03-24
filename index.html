@@ -40,5 +40,14 @@
       context.fillText('Down Direction: Down arrow key', x-115, y+165);
       context.fillText('Collects stars to get bonus points', x-115, y+200);
       context.fillText('Collects hammers to get extra life', x-115, y+220);
+
+      document.addEventListener("keydown", function(event) {
+        if(event.which == "32")
+        {
+          console.log(event.which);
+          context.clearRect(0,0,500,500);
+        }
+  
+}) 
   </script>
 </html>
