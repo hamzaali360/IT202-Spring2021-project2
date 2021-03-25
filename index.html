@@ -14,19 +14,20 @@
   </head>
   <body>
     <script src="script.js"></script>
-     <div id='container'>
     <canvas id='game' width='500' height='500'></canvas>
-  </div>
   <!-- <div>
   <p>Centered!
 </div> -->
   <!-- <center class  = "center">Space Adventure</center> -->
   </body>
   <script>
-  var canvas = document.getElementById('game');
-      var context = canvas.getContext('2d');
-      var x = canvas.width / 2;
-      var y = canvas.height / 2;
+  let canvas = document.querySelector("canvas");
+  canvas.style.backgroundColor = "silver";
+  let context = canvas.getContext("2d");
+  let x = canvas.width / 2;
+  let y = canvas.height / 2;
+  let space = new Image();
+  space.src = "images/space.webp"
 
       context.font = '30pt Calibri';
       context.textAlign = 'center';
@@ -44,10 +45,15 @@
       document.addEventListener("keydown", function(event) {
         if(event.which == "32")
         {
+          canvas.style.backgroundColor = "";
           console.log(event.which);
-          context.clearRect(0,0,500,500);
+          context.clearRect(0,0,500,500);context.drawImage(space,0,0)
         }
   
-}) 
+})
+function startGame()
+{
+
+} 
   </script>
 </html>
