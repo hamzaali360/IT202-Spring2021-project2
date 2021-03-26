@@ -27,7 +27,11 @@
   let x = canvas.width / 2;
   let y = canvas.height / 2;
   let space = new Image();
-  space.src = "images/space.webp"
+ 
+  space.src = "images/space.webp" 
+  let rocket = new Image();
+  rocket.src = "images/rocket.png";
+  let player = {x: 0, y: canvas.height/2,radius: 10}
 
       context.font = '30pt Calibri';
       context.textAlign = 'center';
@@ -47,13 +51,35 @@
         {
           canvas.style.backgroundColor = "";
           console.log(event.which);
-          context.clearRect(0,0,500,500);context.drawImage(space,0,0)
+          // context.clearRect(0,0,500,500);context.drawImage(space,0,0)
+          draw();
+          startGame();
         }
   
 })
+
+let draw= () =>{
+  context.clearRect(0,0,500,500);
+  context.drawImage(space,0,0);
+  context.drawImage(rocket,player.x,player.y,50,50);window.requestAnimationFrame(draw);
+}
 function startGame()
 {
-
+console.log(player.y)
+  //context.drawImage(rocket,player.x,player.y,50,50);
+  document.addEventListener('keydown', (event) => {
+    if (event.code == "ArrowUp" & player.y > 0){
+      player.y -=4;
+      console.log(player.y)
+    }else if(event.code == "ArrowDown" & player.y < 458){
+      player.y +=4;
+      console.log(player.y)
+    } 
+  })
+  
+// context.beginPath();
+// context.arc(player.x + 100,player.y,player.radius,0, Math.PI*2);
+// context.closePath();
 } 
   </script>
 </html>
