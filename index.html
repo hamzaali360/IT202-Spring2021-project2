@@ -29,7 +29,7 @@
 
   let rocket = new Image();
   rocket.src = "images/rocket.png";
-  let player = {x: 0, y: canvas.height/2,radius: 7}
+  let player = {x: 0, y: canvas.height/2,radius: 7, speed: 4}
 
   let asteroids = new Image();
   asteroids.src = "images/asteroids.png";
@@ -58,11 +58,16 @@
         if(event.which == "32" & gameStart == false)
         {
           gameStart = true;
+          // ui.score = 0;
+          // ui.life = 3;
+          // ui.level = 1;
+          // enemys.forEach( (asteroid) => {
+          //   asteroid.speed = 2;
+          //   asteroid.x = 550
+          // });
+          // player.speed = 4;
           canvas.style.backgroundColor = "";
           console.log(event.which);
-         
-          
-          // context.clearRect(0,0,500,500);context.drawImage(space,0,0)
           draw();
           startGame();
         }
@@ -107,6 +112,7 @@ let draw= () =>{
 });
 respawnAstoroid();
 levelIncrease();
+gameOver();
 enemys.forEach( (asteroid) => {
     asteroid.x -= asteroid.speed;
     if(areColliding(player, asteroid))
@@ -135,16 +141,41 @@ function levelIncrease()
   })
   }
 }
+function restart()
+{
+  ui.score = 0;
+  ui.life = 3;
+  ui.level = 1;
+  enemys.forEach( (asteroid) => {
+    asteroid.speed = 2;
+    asteroid.x = 550
+    });
+  player.speed = 4;
+  player.y = y - 25;
+}
+function gameOver()
+{
+  if(ui.life == 0)
+  {
+    enemys.forEach( (asteroid) => {
+    asteroid.speed = 0;
+  })
+  player.speed = 0;
+  context.font = '60pt Calibri';
+  context.fillText('Game Over', x, y);
+  gameStart = false;
+  }
+}
 function startGame()
 {
 
   //context.drawImage(rocket,player.x,player.y,50,50);
   document.addEventListener('keydown', (event) => {
     if (event.code == "ArrowUp" & player.y > 0){
-      player.y -=4;
+      player.y -= player.speed;
       console.log(player.y)
     }else if(event.code == "ArrowDown" & player.y < 458){
-      player.y +=4;
+      player.y += player.speed;
       console.log(player.y)
     } 
   }) 
