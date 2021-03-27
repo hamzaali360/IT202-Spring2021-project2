@@ -40,6 +40,7 @@
   let ui = {life: 3, score: 0, level: 1}
 
   let gameStart = false;
+  let restartSpeed = 2;
 
       context.font = '30pt Calibri';
       context.textAlign = 'center';
@@ -128,31 +129,45 @@ enemys.forEach( (asteroid) => {
   context.fillText('Score: ' + ui.score, x+170, y-230);
   context.fillText('Level: ' + ui.level, x, y-230);
   context.fillText('Life: ' + ui.life, x-220, y-230);
+  
   window.requestAnimationFrame(draw);
 }
 function levelIncrease()
 {
   if(ui.score % 2000 == 0 & ui.score > 0)
   {
-    enemys.forEach( (asteroid) => {
-    asteroid.speed += 1;
     ui.score += 10;
     ui.level += 1;
+    enemys.forEach( (asteroid) => {
+    asteroid.speed += 1;
   })
   }
 }
-function restart()
-{
-  ui.score = 0;
-  ui.life = 3;
-  ui.level = 1;
-  enemys.forEach( (asteroid) => {
-    asteroid.speed = 2;
-    asteroid.x = 550
-    });
-  player.speed = 4;
-  player.y = y - 25;
-}
+// function restart()
+// {
+//    document.addEventListener("keydown", function(event) {
+//     if(event.which == "32" & gameStart == false)
+//         {
+//   gameStart = true;
+//   ui.score = 0;
+//   ui.life = 3;
+//   ui.level = 1;    
+//   enemys.forEach( (asteroid) => {
+//     asteroid.speed = 2;
+//    // asteroid.speed /= restartSpeed;
+    
+//     asteroid.x = 550
+//     console.log(asteroid.speed);
+//     });
+
+//   player.speed = 4;
+//  // player.speed /=restartSpeed;
+//   console.log(player.speed);
+//   player.y = y - 25;
+//   //restartSpeed +=2;
+//         }
+//    });
+// }
 function gameOver()
 {
   if(ui.life == 0)
@@ -164,6 +179,7 @@ function gameOver()
   context.font = '60pt Calibri';
   context.fillText('Game Over', x, y);
   gameStart = false;
+  //restart();
   }
 }
 function startGame()
