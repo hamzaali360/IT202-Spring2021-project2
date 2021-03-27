@@ -77,7 +77,6 @@ let hammer = new Image();
         {
           gameStart = true;
           canvas.style.backgroundColor = "";
-          console.log(event.which);
           draw();
           controls();
         }
@@ -180,7 +179,6 @@ function gameOver()
   context.font = '60pt Calibri';
   context.fillText('Game Over', x, y);
   gameStart = false;
-  //restart();
   }
 }
 function controls()
@@ -188,10 +186,8 @@ function controls()
   document.addEventListener('keydown', (event) => {
     if (event.code == "ArrowUp" & player.y > 16){
       player.y -= player.speed;
-      console.log(player.y)
     }else if(event.code == "ArrowDown" & player.y < 480){
       player.y += player.speed;
-      console.log(player.y)
     } 
   }) 
 }  
