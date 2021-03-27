@@ -15,10 +15,7 @@
   <body>
     <script src="script.js"></script>
     <canvas id='game' width='500' height='500'></canvas>
-  <!-- <div>
-  <p>Centered!
-</div> -->
-  <!-- <center class  = "center">Space Adventure</center> -->
+
   </body>
   <script>
   let canvas = document.querySelector("canvas");
@@ -29,9 +26,20 @@
   let space = new Image();
  
   space.src = "images/space.webp" 
+
   let rocket = new Image();
   rocket.src = "images/rocket.png";
-  let player = {x: 0, y: canvas.height/2,radius: 10}
+  let player = {x: 0, y: canvas.height/2,radius: 7}
+
+  let asteroids = new Image();
+  asteroids.src = "images/asteroids.png";
+  //let enemy = {x: canvas.width + 50, radius: 50}
+ let enemys =[];
+ asteroidMaker();
+ 
+  let ui = {life: 3, score: 0, level: 1}
+
+  let gameStart = false;
 
       context.font = '30pt Calibri';
       context.textAlign = 'center';
@@ -40,32 +48,96 @@
       context.font = '15pt Calibri';
       context.fillText('Press space to start', x, y+65);
       context.fillText('You are traveling through space, you need to avoid the', x, y+30);
-      context.fillText('astoriods while traveling through space', x, y+47);
+      context.fillText('asteroids while traveling through space', x, y+47);
       context.fillText('Up Direction: Up arrow key', x-140, y+150);
       context.fillText('Down Direction: Down arrow key', x-115, y+165);
       context.fillText('Collects stars to get bonus points', x-115, y+200);
       context.fillText('Collects hammers to get extra life', x-115, y+220);
 
       document.addEventListener("keydown", function(event) {
-        if(event.which == "32")
+        if(event.which == "32" & gameStart == false)
         {
+          gameStart = true;
           canvas.style.backgroundColor = "";
           console.log(event.which);
+         
+          
           // context.clearRect(0,0,500,500);context.drawImage(space,0,0)
           draw();
           startGame();
         }
   
 })
+function asteroidMaker(){
+  
+  for (let i = 0; i<5; i++)
+          {
+          enemys.push(
+            {
+              
+              x: Math.floor(Math.random() * (canvas.width +50) + canvas.width), 
+              y: Math.floor(Math.random() * canvas.height),
+              radius: 35,
+              //type: "harm",
+              image: "images/asteroids.png",
+              speed: 2});
+          }       
+}
 
 let draw= () =>{
   context.clearRect(0,0,500,500);
   context.drawImage(space,0,0);
-  context.drawImage(rocket,player.x,player.y,50,50);window.requestAnimationFrame(draw);
+
+  context.drawImage(rocket,player.x,player.y - 25,50,50);
+  // context.beginPath();
+  // context.arc(player.x,player.y,player.radius,0,Math.PI*2);
+  // context.closePath();
+  // context.fillStyle = "red";
+  // context.fill();
+
+  enemys.forEach ( (asteroid) =>{
+    
+  context.drawImage(asteroids, asteroid.x - 20,asteroid.y - 50, 100, 100);
+  // context.beginPath();
+  // context.arc(asteroid.x,asteroid.y,asteroid.radius,0,Math.PI*2);
+  // context.closePath();
+  // context.fillStyle = "red";
+  // context.fill();
+  
+});
+respawnAstoroid();
+levelIncrease();
+enemys.forEach( (asteroid) => {
+    asteroid.x -= asteroid.speed;
+    if(areColliding(player, asteroid))
+    {
+      // console.log("hit");
+      asteroid.x = 550;
+       asteroid.y =Math.floor(Math.random() * canvas.height);
+       ui.life -= 1;
+    }
+  })
+  context.fillStyle = 'white';
+  context.font = '15pt Calibri';
+  context.fillText('Score: ' + ui.score, x+170, y-230);
+  context.fillText('Level: ' + ui.level, x, y-230);
+  context.fillText('Life: ' + ui.life, x-220, y-230);
+  window.requestAnimationFrame(draw);
+}
+function levelIncrease()
+{
+  if(ui.score % 2000 == 0 & ui.score > 0)
+  {
+    enemys.forEach( (asteroid) => {
+    asteroid.speed += 1;
+    ui.score += 10;
+    ui.level += 1;
+  })
+  }
 }
 function startGame()
 {
-console.log(player.y)
+
   //context.drawImage(rocket,player.x,player.y,50,50);
   document.addEventListener('keydown', (event) => {
     if (event.code == "ArrowUp" & player.y > 0){
@@ -75,11 +147,29 @@ console.log(player.y)
       player.y +=4;
       console.log(player.y)
     } 
-  })
-  
-// context.beginPath();
-// context.arc(player.x + 100,player.y,player.radius,0, Math.PI*2);
-// context.closePath();
-} 
+  }) 
+}  
+
+function areColliding(obj1, obj2){
+      let dx = obj1.x - obj2.x;
+      let dy = obj1.y - obj2.y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < obj1.radius + obj2.radius) {
+        return true;
+
+    }
+      return false;
+    }
+
+function respawnAstoroid()
+{
+  enemys.forEach( (asteroid) => {
+    if(asteroid.x < -80){
+      asteroid.y =  Math.floor(Math.random() * canvas.height)
+      asteroid.x = 550;
+      ui.score += 10;
+    }
+  });
+}
   </script>
 </html>
