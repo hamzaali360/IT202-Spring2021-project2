@@ -36,6 +36,19 @@
   //let enemy = {x: canvas.width + 50, radius: 50}
  let enemys =[];
  asteroidMaker();
+
+ let starBonus = new Image();
+ starBonus.src = "images/star.png";
+ let spawnBonus = false;
+
+ let bonus = {
+              x: Math.floor(Math.random() * (canvas.width +50) + canvas.width), 
+              y: Math.floor(Math.random() * canvas.height),
+              radius: 35,
+              type: "bonus",
+              image: "images/star.png",
+              speed: 2
+          }       
  
   let ui = {life: 3, score: 0, level: 1}
 
@@ -85,7 +98,7 @@ function asteroidMaker(){
               y: Math.floor(Math.random() * canvas.height),
               radius: 35,
               //type: "harm",
-              image: "images/asteroids.png",
+              src: "images/asteroids.png",
               speed: 2});
           }       
 }
@@ -111,9 +124,19 @@ let draw= () =>{
   // context.fill();
   
 });
+
+
 respawnAstoroid();
 levelIncrease();
 gameOver();
+
+if(ui.score % 100 == 0 & ui.score > 0){
+  spawnBonus = true;
+}
+context.drawImage(starBonus,bonus.x-20,bonus.y -50,50,50)
+if(bonus.x >-50 & spawnBonus == true){
+  bonus.x -= bonus.speed;
+}
 enemys.forEach( (asteroid) => {
     asteroid.x -= asteroid.speed;
     if(areColliding(player, asteroid))
@@ -124,6 +147,14 @@ enemys.forEach( (asteroid) => {
        ui.life -= 1;
     }
   })
+  if(areColliding(player, bonus))
+    {
+      // console.log("hit");
+      bonus.x = 550;
+       bonus.y =Math.floor(Math.random() * canvas.height);
+      spawnBonus = false;
+       ui.score += 50;
+    }
   context.fillStyle = 'white';
   context.font = '15pt Calibri';
   context.fillText('Score: ' + ui.score, x+170, y-230);
@@ -210,6 +241,12 @@ function areColliding(obj1, obj2){
 
 function respawnAstoroid()
 {
+  if(bonus.x < -40)
+  {
+    bonus.y = Math.floor(Math.random() * canvas.height);
+    bonus.x = 550;
+    spawnBonus = false;
+  }
   enemys.forEach( (asteroid) => {
     if(asteroid.x < -80){
       asteroid.y =  Math.floor(Math.random() * canvas.height)
