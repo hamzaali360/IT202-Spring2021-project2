@@ -1,0 +1,27 @@
+{
+    "theme_color": "#690505",
+    "background_color": "#690505",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "app_name": "Project2",
+    "short_name": "Space Adventure",
+    "description": "A game where you're the rocket fly in space avoiding asteroids as you go",
+    "icons": [
+        {
+            "src": "/icons/rocketIcon-128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/rocketIcon-256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/rocketIcon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

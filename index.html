@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
+    <title>Space Adventure</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="manifest" href="manifest.json">
   </head>
   <body>
     <script src="script.js"></script>
@@ -58,8 +59,6 @@ let hammer = new Image();
   let ui = {life: 3, score: 0, level: 1}
 
   let gameStart = false;
-  //let restartSpeed = 2;
-
       context.font = '30pt Calibri';
       context.textAlign = 'center';
       context.fillStyle = 'blue';
@@ -77,14 +76,6 @@ let hammer = new Image();
         if(event.which == "32" & gameStart == false)
         {
           gameStart = true;
-          // ui.score = 0;
-          // ui.life = 3;
-          // ui.level = 1;
-          // enemys.forEach( (asteroid) => {
-          //   asteroid.speed = 2;
-          //   asteroid.x = 550
-          // });
-          // player.speed = 4;
           canvas.style.backgroundColor = "";
           console.log(event.which);
           draw();
@@ -98,7 +89,6 @@ function asteroidMaker(){
           {
           enemys.push(
             {
-              
               x: Math.floor(Math.random() * (canvas.width +50) + canvas.width), 
               y: Math.floor(Math.random() * canvas.height),
               radius: 35,
@@ -109,25 +99,10 @@ function asteroidMaker(){
 let draw= () =>{
   context.clearRect(0,0,500,500);
   context.drawImage(space,0,0);
-
   context.drawImage(rocket,player.x,player.y - 25,50,50);
-  // context.beginPath();
-  // context.arc(player.x,player.y,player.radius,0,Math.PI*2);
-  // context.closePath();
-  // context.fillStyle = "red";
-  // context.fill();
-
-  enemys.forEach ( (asteroid) =>{
-    
-  context.drawImage(asteroids, asteroid.x - 20,asteroid.y - 50, 100, 100);
-  // context.beginPath();
-  // context.arc(asteroid.x,asteroid.y,asteroid.radius,0,Math.PI*2);
-  // context.closePath();
-  // context.fillStyle = "red";
-  // context.fill();
-  
+  enemys.forEach ( (asteroid) =>{  
+  context.drawImage(asteroids, asteroid.x - 20,asteroid.y - 50, 100, 100); 
 });
-
 
 respawnObj();
 levelIncrease();
@@ -141,7 +116,7 @@ if(bonus.x >-50 & spawnBonus == true){
   bonus.x -= bonus.speed;
 }
 
-if(ui.score % 500 == 0 & ui.score > 0){
+if(ui.score % 400 == 0 && ui.score > 0){
   spawnExtraLife = true;
 }
 context.drawImage(hammer,extraLife.x-25,extraLife.y -30,50,50);
@@ -182,7 +157,7 @@ enemys.forEach( (asteroid) => {
 }
 function levelIncrease()
 {
-  if(ui.score % 1000 == 0 & ui.score > 0)
+  if(ui.score % 1000 == 0 && ui.score > 0)
   {
     ui.score += 10;
     ui.level += 1;
@@ -191,31 +166,7 @@ function levelIncrease()
   })
   }
 }
-// function restart()
-// {
-//    document.addEventListener("keydown", function(event) {
-//     if(event.which == "32" & gameStart == false)
-//         {
-//   gameStart = true;
-//   ui.score = 0;
-//   ui.life = 3;
-//   ui.level = 1;    
-//   enemys.forEach( (asteroid) => {
-//     asteroid.speed = 2;
-//    // asteroid.speed /= restartSpeed;
-    
-//     asteroid.x = 550
-//     console.log(asteroid.speed);
-//     });
 
-//   player.speed = 4;
-//  // player.speed /=restartSpeed;
-//   console.log(player.speed);
-//   player.y = y - 25;
-//   //restartSpeed +=2;
-//         }
-//    });
-// }
 function gameOver()
 {
   if(ui.life == 0)
@@ -224,6 +175,8 @@ function gameOver()
     asteroid.speed = 0;
   })
   player.speed = 0;
+  bonus.speed = 0;
+  extraLife.speed = 0;
   context.font = '60pt Calibri';
   context.fillText('Game Over', x, y);
   gameStart = false;
@@ -277,4 +230,17 @@ function respawnObj()
   });
 }
   </script>
+  <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('./script.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
 </html>
